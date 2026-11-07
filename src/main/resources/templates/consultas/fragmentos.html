@@ -68,9 +68,52 @@
             <div th:replace="~{consultas/fragmentos :: formConsulta('primary',#{consultas.derivadas},'/consultas/consultaDerivada')}"/>
             <div th:replace="~{consultas/fragmentos :: formConsulta('warning',#{consultas.jpql},'/consultas/consultaJPQL')}"/>
             <div th:replace="~{consultas/fragmentos :: formConsulta('success',#{consultas.sql},'/consultas/consultaSQL')}"/>
-            <div class='card'><p>Acá va su Práctica #2</p></div>
+
+            <div>
+                <form method="post" th:action="@{/consultas/consultaInventario}" class="was-validated">
+                    <div class="card p-2">
+                        <div class="card-header text-center text-white"
+                             style="background-color: #fd7e14;">
+                            <h5>[[#{consultas.inventario}]]</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label>[[#{consultas.inventario.categoria}]]</label>
+                                <select name="idCategoria" class="form-select">
+                                    <option value="">[[#{consultas.inventario.todas}]]</option>
+                                    <option th:each="c : ${categorias}"
+                                            th:value="${c.idCategoria}"
+                                            th:text="${c.descripcion}"
+                                            th:selected="${c.idCategoria == idCategoria}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label>[[#{consultas.inventario.minimo}]]</label>
+                                <input type="number" name="existenciasMin"
+                                       th:value="${existenciasMin}"
+                                       class="form-control" min="0" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label>[[#{consultas.inventario.maximo}]]</label>
+                                <input type="number" name="existenciasMax"
+                                       th:value="${existenciasMax}"
+                                       class="form-control" min="0" required/>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn text-white"
+                                    style="background-color: #fd7e14;">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                [[#{consultas.inventario.boton}]]
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </section>
-        
+
         <div th:fragment='formConsulta(colorForm, textoForm, urlForm)'>
             <form method="post" th:action='@{${urlForm}}' class='was-validated'>
                 <div class='card p-2'>
